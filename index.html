@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32x32.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <title>Frontend Mentor | FAQ accordion</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'White': 'hsl(0, 0%, 100%)',
+                        'Light-pink': 'hsl(275, 100%, 97%)',
+                        'Grayish-purple': 'hsl(292, 16%, 49%)',
+                        'Dark-purple': 'hsl(292, 42%, 14%)',
+                        'Purple': 'hsl(281, 83%, 54%)',
+                    },
+                    fontFamily: {
+                        'Work-Sans': ['Work Sans'],
+                    },
+                    boxShadow: {
+                        '2xl': '0 25px 50px -12px hsla(293, 16%, 49%, 0.2)',
+                    }
+                }
+            }
+        }
+
+        $(document).ready(function () {
+
+            let currentIndex = 0;
+
+            // Handle the click event
+            $('.question').click(function () {
+                const accordion = $(this).closest('.main').find('#accordion');
+                const btn = $(this).find('.btn');
+
+                toggleAccordion(accordion, btn);
+            });
+
+            // Handle arrow key navigation
+            $(document).keydown(function (e) {
+                if (e.key === 'ArrowUp' || e.key === 'ArrowDown') { // Up or down arrow key
+                    e.preventDefault();
+                    navigateAccordion(e.key === 'ArrowUp' ? -1 : 1);
+                }
+            });
+
+            function toggleAccordion(accordion, btn) {
+                const mode = !accordion.hasClass('hidden');
+                accordion.toggleClass('hidden', mode);
+                btn.attr('src', mode ? 'assets/images/icon-plus.svg' : 'assets/images/icon-minus.svg');
+            }
+
+            function navigateAccordion(direction) {
+                const accordions = $('.main #accordion');
+                const buttons = $('.main .btn');
+                
+
+                currentIndex = (currentIndex + direction + accordions.length) % accordions.length;
+
+                accordions.addClass('hidden');
+                buttons.attr('src', 'assets/images/icon-plus.svg');
+
+                const currentAccordion = accordions.eq(currentIndex);
+                const currentButton = buttons.eq(currentIndex);
+
+                toggleAccordion(currentAccordion, currentButton);
+                console.log(currentIndex);
+            }           
+        });
+    </script>
+</head>
+<body>
+    
+    <div class="min-h-[100dvh] relative bg-Light-pink font-Work-Sans flex items-center justify-center p-4">
+        <div class="w-full h-56 sm:h-[352px] absolute top-0 ">
+            <img src="assets/images/background-pattern-desktop.svg" alt="bg" class="h-full w-full object-cover">
+        </div>
+        <div class=" bg-White rounded-xl sm:rounded-2xl w-96 sm:w-[608px] px-8 sm:px-10 py-4 shadow-2xl z-10">
+            <div class="flex items-center gap-6 pt-4 pb-2 sm:pt-10 sm:pb-6">
+                <img src="assets/images/icon-star.svg" alt="icon" class=" w-8 h-8 sm:w-10 sm:h-10">
+                <p class="text-Dark-purple text-4xl sm:text-[56px] font-bold">FAQs</p>
+            </div>
+                
+            <div class="main ">
+                <div class="question cursor-pointer flex justify-between items-center py-6">
+                    <p class="font-semibold text-lg hover:text-Purple mr-8 leading-5">
+                        What is Frontend Mentor, and how will it help me?
+                    </p>
+                    <img src="assets/images/icon-plus.svg" alt="icon" class="btn">
+                </div>
+
+                <p id="accordion" class="hidden font-normal text-Grayish-purple pb-5 ">
+                    Frontend Mentor offers realistic coding challenges to help developers improve their 
+                    frontend coding skills with projects in HTML, CSS, and JavaScript. It's suitable for 
+                    all levels and ideal for portfolio building.
+                </p>
+            </div>
+            <hr class="border-Light-pink">
+            <div class="main">
+                <div class="question cursor-pointer flex justify-between items-center py-6">
+                    <p class="font-semibold text-lg hover:text-Purple mr-8 leading-5">
+                        Is Frontend Mentor free?
+                    </p>
+                   <img src="assets/images/icon-plus.svg" alt="icon" class="btn">
+                </div>
+
+                <p id="accordion" class="hidden font-normal text-Grayish-purple pb-5">
+                    Yes, Frontend Mentor offers both free and premium coding challenges, with the free 
+                    option providing access to a range of projects suitable for all skill levels.
+                </p>
+            </div>
+            <hr class="border-Light-pink">
+            <div class="main">
+                <div class="question cursor-pointer flex justify-between items-center py-6">
+                    <p class="font-semibold text-lg hover:text-Purple mr-8 leading-5">
+                        Can I use Frontend Mentor projects in my portfolio?
+                    </p>
+                    <img src="assets/images/icon-plus.svg" alt="icon" class="btn">
+                </div>
+
+                <p id="accordion" class="hidden font-normal text-Grayish-purple pb-5 ">
+                    Yes, you can use projects completed on Frontend Mentor in your portfolio. It's an excellent
+                    way to showcase your skills to potential employers!
+                </p>
+            </div>
+            <hr class="border-Light-pink">
+            <div class="main ">
+                <div class="question cursor-pointer flex justify-between items-center py-6">
+                    <p class="font-semibold text-lg hover:text-Purple mr-8 leading-5">
+                        How can I get help if I'm stuck on a Frontend Mentor challenge?
+                    </p>
+                   <img src="assets/images/icon-plus.svg" alt="icon" class="btn">
+                </div>
+
+                <p id="accordion" class="hidden font-normal text-Grayish-purple pb-5 ">
+                    The best place to get help is inside Frontend Mentor's Discord community. There's a help 
+                    channel where you can ask questions and seek support from other community members.
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="text-center bg-Light-pink">
+        Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. 
+        Coded by <a href="https://drix-portfolio.vercel.app/" target="_blank">Christian Joseph Dimla</a>.
+    </div>
+
+    
+</body>
+</html>
